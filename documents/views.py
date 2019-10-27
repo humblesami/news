@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 
 from documents.annotation import AnnotationDocument
-from mainapp import ws_methods
+from main_app import ws_methods
 from django.db import transaction
 from meetings.model_files.user import Profile
 from documents.file import File

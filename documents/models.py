@@ -11,8 +11,8 @@ from django.core.exceptions import ValidationError
 from django.core.files.temp import NamedTemporaryFile
 
 
-from mainapp import ws_methods
-from mainapp.models import CustomModel
+from main_app import ws_methods
+from main_app.models import CustomModel
 
 
 def validate_file_extension(value):

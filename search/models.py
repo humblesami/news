@@ -1,7 +1,7 @@
 from django.apps import apps
 from django.db import models
 from django.db.models import Q
-from mainapp import ws_methods
+from main_app import ws_methods
 
 all_apps = {
     'app1':

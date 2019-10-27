@@ -9,9 +9,9 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from datetime import datetime
-from mainapp import ws_methods
+from main_app import ws_methods
 from documents.models import File
-from authsignup.models import Profile
+from auth_app.models import Profile
 
 
 class PostAddress(models.Model):

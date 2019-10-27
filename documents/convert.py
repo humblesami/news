@@ -1,7 +1,7 @@
 import subprocess
 from PIL import Image
 from fpdf import FPDF
-from mainapp import settings
+from main_app import settings
 from PyPDF2 import PdfFileReader
 from django.core.files import File as DjangoFile
 

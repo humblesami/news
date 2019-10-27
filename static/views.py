@@ -1,6 +1,5 @@
 from main_app import ws_methods
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 
 def index(request):
     user = request.user
@@ -12,4 +11,8 @@ def index(request):
             'id' : user.id,
             'login': user.username
         }
-    return render(request, 'index.html', context)
+    return render(request, 'main/index.html', context)
+
+
+def login(request):
+  return render(request, 'auth/index.html', {})

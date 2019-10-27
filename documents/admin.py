@@ -1,6 +1,6 @@
 from django.contrib import admin
 from documents.models import File
-from mainapp.admin import BaseAdmin, BaseInlineAdmin
+from main_app.admin import BaseAdmin, BaseInlineAdmin
 
 
 class FileAdmin(BaseAdmin):
