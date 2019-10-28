@@ -1,5 +1,5 @@
 {% extends 'admin/change_form.html' %}
-{{ block.super }}
+{% block extrahead %}{{ block.super }}
     <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
     <link rel="stylesheet" type="text/css" href="/static/admin/css/change_form.css" />
 {% endblock %}
@@ -8,11 +8,5 @@
     <script>
         window.top.postMessage('iframe_load', '*');
     </script>
-    <script type="text/javascript"
-            id="django-admin-form-add-constants"
-            src="{% static 'admin/js/change_form.js' %}"
-            {% if adminform and add %}
-                data-model-name="{{ opts.model_name }}"
-            {% endif %}>
-    </script>
+
 {% endblock %}
