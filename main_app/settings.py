@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated', )
@@ -86,6 +87,7 @@ PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
+    'localhost:4201',
     '127.0.0.1:4200',
     '172.16.21.170:4200',
     '172.16.21.171:4200',
