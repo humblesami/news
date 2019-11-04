@@ -18,6 +18,9 @@ public_methods = {
             'login_user': 1,
             'reset_password': 1,
             'set_password': 1
+        },
+        'Profile' :{
+            'save_profile': 1,
         }
     },
 }

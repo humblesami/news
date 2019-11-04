@@ -20,7 +20,9 @@ export class LoginComponent implements OnInit {
 
     username = '';
     password = '';
-  onSubmit(){
+    res =  undefined
+    
+    onSubmit(){
 
     this.submitted = true;
 
@@ -41,21 +43,22 @@ export class LoginComponent implements OnInit {
       params: params
     };
 
-    window['ajax_request'](input_data);
-
-    var success_cb = function (user) {
-      alert("Success");
-
-    };
-    var failure_cb = function (error) {
+    var call_backs = {
+      success: function(data){
+        window.location.href= '';
+      },
+      error: function(error){
         if(typeof(error) != 'string')
         {
-            error ='Could not connect to server';
+            obj_this.error ='Could not connect to server';
         }            
         obj_this.error = error;
+        }
       };
+
+    window['ajax_request'](input_data, call_backs);
+    
     }
-  
 
   ngOnInit() {
 

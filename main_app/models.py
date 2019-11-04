@@ -28,7 +28,8 @@ class CustomModel(models.Model):
         req_user = get_current_user()
         if self.pk is None:
             self.created_at = datetime.datetime.now()
-            self.created_by = req_user
+            if req_user.id:
+                self.created_by = req_user
         else:
             self.updated_at = datetime.datetime.now()
             self.updated_by = req_user

@@ -1,6 +1,8 @@
 
-function ajax_request(input_data) {
- 
+function ajax_request(input_data, call_backs) {
+    if(!call_backs){
+        call_backs = {};
+    }    
     if (!input_data) {
         console.log('No data and arguments for request ',input_data);
         return;
@@ -23,7 +25,7 @@ function ajax_request(input_data) {
     
     var options = {};
     options.headers = {};
-    if(ajax_user.cookie && ajax_user.cookie.token)
+    if(ajax_user && ajax_user.cookie && ajax_user.cookie.token)
     {        
         options.headers ['Authorization'] = 'Token '+ajax_user.cookie.token;
     }
@@ -94,24 +96,23 @@ function ajax_request(input_data) {
             console.log("Undefined response", url_with_params);            
         } else if (response.data) {
             response = response.data;
-            if (options.onSuccess) {
+            if (call_backs.success) {
                 try{
-                    options.onSuccess(response);
+                    call_backs.success(response);
                 }
                 catch(er)
                 {
                     console.log(response, er);
                 }
             } else if(site_config.show_logs.indexOf('ajax_success')){
-                // console.log(response);
+                return response;
             }
         }
         else {
             if(!response.error)
             {
                 response.error = response;
-            }            
-
+            }
             handleError(response);
         }
     };
@@ -185,7 +186,7 @@ function ajax_request(input_data) {
 
 
     function handleError(response)
-    {        
+    {
         if(response.error && response.error.data)
         {
             console.log(response.error.data);
@@ -218,9 +219,9 @@ function ajax_request(input_data) {
                 handle_authorization(response.error);
                 return;
             }
-            else if(options.onError) {
+            else if(call_backs.error) {
                 try{
-                    options.onError(response.error);
+                    call_backs.error(response.error);
                 }
                 catch(er)
                 {                    
