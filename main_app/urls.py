@@ -21,7 +21,7 @@ from main_app import views
 from .import rest_api
 
 urlpatterns = [
-    url(r'', include('static.urls')),
+    # url(r'', include('static.urls')),
     url(r'^admin/', admin.site.urls, name='admin'),
     path('rest/public', rest_api.public, name = 'public'),
     path('rest/secure', rest_api.tokened_request, name = 'secure'),

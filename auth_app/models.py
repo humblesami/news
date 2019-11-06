@@ -5,21 +5,125 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User as user_model
 from django.contrib.auth import authenticate, login, logout
-
+from documents.models import File
 from main_app import ws_methods
 from  main_app.models import CustomModel
 from main_app.settings import AUTH_SERVER_URL, server_base_url
-
+from django.utils.translation import gettext_lazy as _
 from token_app.models import PostUserToken
+from django.db.models import UniqueConstraint
 
+TWO_FACTOR_CHOICES = (
+    (1, _("Email")),
+    (2, _("Phone"))
+)
+
+GENDER_CHOICES = (
+    (1, _("Male")),
+    (2, _("Female")),
+    (3, _("Other")),
+    (4, _("I decline to answer"))
+)
+MARITAL_CHOICES = (
+    (1, _("Single")),
+    (2, _("Married")),
+    (3, _("Widower")),
+    (4, _("Divorced"))
+)
+YES_NO_CHOICES = (
+    (1, _("Yes")),
+    (2, _("No")),
+    (3, _("I decline to answer"))
+)
+ETHINICITY_CHOICES = (
+    (1, _("Hispanic or Latino")),
+    (2, _("American Indian or Alaskan Native")),
+    (3, _("Asian")),
+    (4, _("Native Hawaiian or Other Native Pacific Islander")),
+    (5, _("Black or African American")),
+    (6, _("White")),
+    (7, _("Two or more races")),
+    (8, _("I decline to answer"))
+)
 
 class Profile(user_model, CustomModel):
     class Meta:
         verbose_name_plural = "Boardsheet  Users"
     name = models.CharField(max_length=200, default='', blank=True)
     image = models.ImageField(upload_to='profile/', default='profile/default.png', null=True)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    nick_name = models.CharField(max_length=30, blank=True)
+    job_title = models.CharField(max_length=30, blank=True)
+    department = models.CharField(max_length=30, blank=True)
+    work_phone = models.CharField(max_length=30, blank=True)
+    mobile_phone = models.CharField(max_length=30, blank=True)
+    website = models.CharField(max_length=30, blank=True)
+    fax = models.CharField(max_length=30, blank=True)
+    ethnicity = models.IntegerField(choices=ETHINICITY_CHOICES, blank=True, null=True)
+    gender = models.IntegerField(choices=GENDER_CHOICES, blank=True, null=True)
+    veteran = models.IntegerField(choices=YES_NO_CHOICES, blank=True, null=True)
+    disability = models.IntegerField(choices=YES_NO_CHOICES, blank=True, null=True)
+    company = models.CharField(max_length=128, blank=True, null=True)
+    board_joining_date = models.DateField('board joining date', blank=True, null=True)
+    admin_first_name = models.CharField(max_length=30, blank=True, null=True)
+    admin_last_name = models.CharField(max_length=30, blank=True, null=True)
+    admin_nick_name = models.CharField(max_length=30, blank=True, null=True)
+    admin_cell_phone = models.CharField(max_length=30, blank=True, null=True)
+    admin_email = models.CharField(max_length=30, blank=True, null=True)
+    admin_work_phone = models.CharField(max_length=30, blank=True, null=True)
+    admin_fax = models.CharField(max_length=30, blank=True, null=True)
+    admin_image = models.ImageField(upload_to='profile/', default='profile/default.png', null=True)
+    mail_to_assistant = models.BooleanField(blank=True, null=True)
+    term_start_date = models.DateField(blank=True, null=True)
+    term_end_date = models.DateField(blank=True, null=True)
+    signature_data = models.BinaryField(default=b'', null=True, blank=True)
+    resume = models.OneToOneField(File, null=True, blank=True, on_delete=models.SET_NULL)
+    two_factor_auth = models.IntegerField(choices=TWO_FACTOR_CHOICES, blank=True, null=True)
+    email_verified = models.BooleanField(null=True, default=False)
+    mobile_verified = models.BooleanField(null=True, default=False)
+    image_updated = models.BooleanField(default=False)
 
+    UniqueConstraint(fields=['email'], name='unique_email')
 
+    def __str__(self):
+        return self.fullname()
+    @classmethod
+    def save_profile(cls, request, params):
+        first_name = params.get('first_name')
+        last_name = params.get('last_name')
+        email = params.get('email')
+        password = params.get('password')
+        profile = Profile( first_name = first_name, last_name = last_name, email = email)
+        profile.set_password(password)
+        if profile:
+            creating = True
+            profile.is_staff = True
+            if profile.email and not profile.username:
+                profile.username = profile.email
+            profile.image = ws_methods.generate_default_image(profile.fullname())
+        profile.name = profile.fullname()
+        profile.save()
+        data = { 'success': {'id': profile.id,
+            'name': profile.name}
+        }
+        
+        return data
+
+    def fullname(self):
+        user = self
+        name = False
+        if user.first_name:
+            name = user.first_name
+        if user.last_name:
+            name += ' ' + user.last_name
+        if not name:
+            if not self.name:
+                name = user.username
+            else:
+                name = self.name
+        return name
 class DualAuth(models.Model):
     uuid = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -132,12 +236,12 @@ class AuthUser(models.Model):
         except:
             pass        
         """ Creating Peronsl Folder if not exists """
-        folder_model = ws_methods.get_model('resources', 'Folder')
-        method_to_call =  getattr(folder_model, 'create_personal_folder')
-        request.user = user
-        method_to_call(folder_model, request, {})
+        # folder_model = ws_methods.get_model('resources', 'Folder')
+        # method_to_call =  getattr(folder_model, 'create_personal_folder')
+        # request.user = user
+        # method_to_call(folder_model, request, {})
         """Deleting All Temp Files"""
-        ws_methods.detele_all_temp_files(request, user.id)
+        # ws_methods.detele_all_temp_files(request, user.id)
         return user_data
 
     @classmethod
