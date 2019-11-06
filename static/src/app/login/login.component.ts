@@ -53,9 +53,12 @@ export class LoginComponent implements OnInit {
         if(typeof(error) != 'string')
         {
             obj_this.error ='Could not connect to server';
-        }            
+        } 
         obj_this.error = error;
-        }
+        setTimeout(function(){
+          obj_this.error = "";
+        },5000)  
+      }
       };
 
     window['ajax_request'](input_data, call_backs);
@@ -64,7 +67,6 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(window['current_user']);
     if(window['pathname'] == '/logout'){
       window['current_user'].logout();
       window.location.href = '/login';

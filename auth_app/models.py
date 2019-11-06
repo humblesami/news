@@ -245,6 +245,16 @@ class AuthUser(models.Model):
         return user_data
 
     @classmethod
+    def email_verify(cls, request, params):
+        email = params.get('email')
+        user = Profile.objects.filter(email = email);
+        if(user):
+            return {'error': 'user already Exist'}
+        else:
+            return {'success': 'Email is valid'}
+
+
+    @classmethod
     def login_user(cls, request, params):
         username = params.get('login')
         password = params.get('password')

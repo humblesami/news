@@ -1,7 +1,9 @@
+<div class="container">
 <h2>Signup Form</h2>
 
 <form>
   <div class="container">
+    <div *ngIf="error" class="alert alert-{{error_type}}">{{error}}</div>
     <label for="first_name"><b>First Name</b></label>
     <input type="text" (change)="data.first_name = $event.target.value" placeholder="Enter First Name" id="first_name" name="first_name" class="form-control" >
 
@@ -9,18 +11,20 @@
     <input type="text" (change)="data.last_name = $event.target.value" placeholder="Enter Last Name" id="last_name" name="last_name" class="form-control" >
 
     <label for="email"><b>Email</b></label>
-    <input type="text" (change)="data.email = $event.target.value" placeholder="Enter Email" id="email" name="email" class="form-control">
+    <input type="text" (change)="username_validate()" [(ngModel)]="data.email" placeholder="Enter Email" id="email" name="email" class="form-control">
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" (change)="data.password = $event.target.value" placeholder="Enter Password" class="form-control" name="password" >
+    <input type="password" (change)="data.password = $event.target.value" placeholder="Enter Password" class="form-control" name="password" id="password"  >
     
-        <label for="c_password"><b>Password</b></label>
-    <input type="password" (change)="data.c_password = $event.target.value" placeholder="Confirm Password" class="form-control" name="c_password" >
-    <button  type="button" (click)="onSubmit()" >Sign up</button>
+        <label for="c_password"><b>Confirm Password</b></label>
+    <input type="password" (change)="data.c_password = $event.target.value" placeholder="Confirm Password" class="form-control" name="c_password" id="c_password" >
+    <button  type="button" 
+    [disabled]="!data.first_name && !data.last_name && !data.email && !data.password && !data.c_password" 
+    (click)="onSubmit()" >Sign up</button>
 
   </div>
-  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
   <div class="container" style="background-color:#f1f1f1">
     <a href="/login">Log in?</a>
   </div>
 </form>
+</div>

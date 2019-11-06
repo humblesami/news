@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { App1SharedModule } from '../../projects/app1/src/app/app.module' ;
@@ -20,7 +20,8 @@ import { SignupComponent } from './signup/signup.component' ;
     BrowserModule,
     AppRoutingModule,
     App1SharedModule.forRoot(),
-    App2SharedModule.forRoot()
+    App2SharedModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
