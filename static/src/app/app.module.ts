@@ -8,6 +8,27 @@ import { App2SharedModule } from '../../projects/app2/src/app/app.module';
 import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component' ;
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  LinkedinLoginProvider,
+  VkontakteLoginProvider,
+} from "angular-6-social-login-v2";
+
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+          {
+            id: LinkedinLoginProvider.PROVIDER_ID,
+            provider: new LinkedinLoginProvider("77mumw83h6nlyn")
+          }
+      ]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -21,9 +42,17 @@ import { SignupComponent } from './signup/signup.component' ;
     AppRoutingModule,
     App1SharedModule.forRoot(),
     App2SharedModule.forRoot(),
-    FormsModule
+    FormsModule,
+    SocialLoginModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }
+  ],
   bootstrap: [AppComponent]
 })
+
+
 export class AppModule { }

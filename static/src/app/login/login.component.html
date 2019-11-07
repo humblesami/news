@@ -16,7 +16,7 @@
     <input type="password" (change)="password = $event.target.value" placeholder="Enter Password" class="form-control" name="password" >
         
     <button type="button" (click)="onSubmit()" >Login</button>
-
+    <button type="button" class="btn" (click)="socialSignIn('linkedin')">Login with Linkdin</button>
   </div>
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>
   <div class="container" style="background-color:#f1f1f1">

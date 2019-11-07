@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { $ } from 'protractor';
 
+declare var $: any;
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -37,8 +37,8 @@ export class SignupComponent implements OnInit {
       if(obj_this.data.password != obj_this.data.c_password){
         obj_this.error_type = "danger"
         obj_this.error = "Password not match";
-        // $('#password').values("");
-        // $('#c_password').values("");
+        $('#password').val('');
+        $('#c_password').val('');
         setTimeout(function(){
           obj_this.error_type = ""
           obj_this.error = "";      
