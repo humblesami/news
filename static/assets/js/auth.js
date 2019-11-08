@@ -98,7 +98,8 @@
         }
         let public_routes = [
             '/login',
-            '/signup'
+            '/signup',
+            'auth/linkedin/callback',
         ];
         for (var i in public_routes)
         {
