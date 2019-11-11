@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyCUZifOVn61-MQ3e_0EK95TOqM30JGbyUU',
+    authDomain: 'meetview.firebaseapp.com',
+    databaseURL: 'https://meetview.firebaseio.com',
+    projectId: 'meetview',
+    storageBucket: 'meetview.appspot.com',
+    messagingSenderId: '817538782176'
+  }
 };
 
 /*
