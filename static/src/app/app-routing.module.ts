@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { NavComponent } from 'projects/app1/src/app/nav/nav.component';
-import { CallbackComponent } from './callback/callback.component'
 const routes: Routes = [
   {path: 'app1', loadChildren: '../../projects/app1/src/app/app.module#App1SharedModule'},
   {path: 'app2', loadChildren: '../../projects/app2/src/app/app.module#App2SharedModule'},
@@ -11,7 +10,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LoginComponent},
   { path: 'signup', component: SignupComponent},
-  { path: 'auth/linkedin/callback', component: CallbackComponent }
+
 ];
 
 @NgModule({

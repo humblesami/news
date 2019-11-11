@@ -7,11 +7,14 @@ import { LoginService } from './login.service';
 declare var auth2: any;
 declare var FB: any;
 declare var gapi: any;
+declare var OAuth: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+
 export class LoginComponent implements OnInit {
   error: string;
   submitted = false;
@@ -29,8 +32,48 @@ export class LoginComponent implements OnInit {
     private loginservice : LoginService,
     ) { }
 
+  public auth2: any;
+  public googleInit() {
+    gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: '817538782176-9cenjdob9ab7bc60b0eqkvlotpmrkfcg.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        scope: 'profile email'
+      });
+      this.attachSignin(document.getElementById('googleBtn'));
+    });
+  }
 
+  public attachSignin(element) {
+    this.auth2.attachClickHandler(element, {},
+      (googleUser) => {
 
+        let profile = googleUser.getBasicProfile();
+        console.log('Token || ' + googleUser.getAuthResponse().id_token);
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+        //YOUR CODE HERE
+
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+
+      }, (error) => {
+        alert(JSON.stringify(error, undefined, 2));
+      });
+  }
+  signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+  
+  
+  ngAfterViewInit(){
+    this.googleInit();
+  }
   showConfig() {
     this.loginservice.getConfig().subscribe((data) =>  {
           console.log(data);
@@ -104,35 +147,7 @@ socialSignIn(socialPlatform) {
     window['ajax_request'](input_data, call_backs);
     
     }
-    // submitLogin(){
-    //   console.log("submit login to facebook");
-    //   // FB.login();
-    //   FB.login((response)=>
-    //       {
-    //         console.log('submitLogin',response);
-    //         if (response.authResponse)
-    //         {
-    //           FB.api(
-    //             '/me',
-    //             'GET',
-    //             {"fields":"id,name"},
-    //             function(response) {
-    //               console.log(response);
 
-    //               // Insert your code here
-    //             }
-    //           );
-    //           //login success
-    //           //login success code here
-    //           //redirect to home page
-    //          }
-    //          else
-    //          {
-    //          console.log('User login failed');
-    //        }
-    //     });
-
-    // }
  
   ngOnInit() {
     // (window as any).fbAsyncInit = function() {
@@ -163,29 +178,11 @@ socialSignIn(socialPlatform) {
       window['current_user'].logout();
       window.location.href = '/login';
     }
-    function onSignIn(googleUser){
-      alert("sdfasdfasdf");
-      setTimeout(function(){
-        this.onSignIn1(googleUser);
-      },100);
-    }
 
-  }
-  signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
-  onSignIn1(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    if(profile){
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present. 
-    }
 
-  } 
+
+  }  
+    
+  
  
 }

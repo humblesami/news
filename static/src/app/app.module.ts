@@ -18,7 +18,6 @@ import {
   LinkedinLoginProvider,
   VkontakteLoginProvider,
 } from "angular-6-social-login-v2";
-import { CallbackComponent } from './callback/callback.component';
 
 
 export function getAuthServiceConfigs() {
@@ -43,7 +42,6 @@ export function getAuthServiceConfigs() {
     NavComponent,
     LoginComponent,
     SignupComponent,
-    CallbackComponent,
     
   ],
   imports: [

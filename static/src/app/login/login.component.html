@@ -16,16 +16,27 @@
     <input type="password" (change)="password = $event.target.value" placeholder="Enter Password" class="form-control" name="password" >
         
     <button type="button" (click)="onSubmit()" >Login</button>
+  <!--
     <a href="https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=77newbkm19tpbo&redirect_uri=http://localhost:4200/auth/linkedin/callback&state=987654321" class="btn btn-primary">linked in</a>
-    <button type="button" class="btn" (click)="socialSignIn('google')">Login with Linkdin</button>
+    <button type="button" class="btn" (click)="socialSignIn('google')">Login with Linkdin</button> -->
+  <div>
+  <button id="googleBtn">Google</button><a href="#" class="btn btn-primary" onclick="signOut();">Sign out</a>
   </div>
+  <div>
+    <button id="github-button" class="btn btn-block btn-social btn-github" (click)='gitcall()' >Sign in with Github</button>
+   
+  </div>
+  </div>
+
+<!--
 <button type="button" (click)="signOut()" >logout</button>
 <div class="g-signin2" data-onsuccess="onSignIn"></div>
   <div *ngIf="error" class="alert alert-danger">{{error}}</div>
   <div class="container" style="background-color:#f1f1f1">
     <a href="/signup" class="btn btn-primary ml-1" >Sign Up</a>
     <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
+</div>
+-->
 </form>
 
-</div>
+</div>  
