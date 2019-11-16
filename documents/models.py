@@ -36,7 +36,7 @@ class File(CustomModel):
     upload_status = models.BooleanField(default=False)
     file_name = models.CharField(max_length=128, default='')
     cloud_url = models.CharField(max_length=512, null=True, blank=True)
-    extention = models.CharField(max_length=16, null=True, blank=True)
+    file_extension = models.CharField(max_length=16, null=True, blank=True)
     access_token = models.CharField(max_length=512, null=True, blank=True)
 
     def __str__(self):
@@ -122,7 +122,7 @@ class File(CustomModel):
                         self.pending_tasks = 2
             if file_changed:
                 arr = os.path.splitext(self.attachment.url)               
-                self.extention = arr[1]
+                self.file_extension = arr[1]
 
             super(File, self).save(*args, **kwargs)
 
@@ -165,8 +165,8 @@ class File(CustomModel):
                     is_valid = True
             if not is_valid:
                 invalid_docs.append(doc.id)
-        # docs = docs.filter(~(Q(id__in=invalid_docs))).values('id', 'name', 'access_token', 'extention')
-        docs = docs.values('id', 'name', 'access_token', 'extention')
+        # docs = docs.filter(~(Q(id__in=invalid_docs))).values('id', 'name', 'access_token', 'file_extension')
+        docs = docs.values('id', 'name', 'access_token', 'file_extension')
         documents = list(docs)
         for doc in documents:
             if doc['id'] in invalid_docs:

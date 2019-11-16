@@ -642,7 +642,7 @@ class Message(models.Model):
                 attachment_urls.append({
                     'name': file_name,
                     'id': doc.id,
-                    'file_type': doc.extention,
+                    'file_type': doc.file_extension,
                     'url': doc.attachment.url,
                 })
 
@@ -719,7 +719,7 @@ class Message(models.Model):
                     'url': att.attachment.url,
                     'id':att.id,
                     'moved':att.moved,
-                    'file_type': att.extention
+                    'file_type': att.file_extension
                 })
             ar.append(dict_obj)
         return ar

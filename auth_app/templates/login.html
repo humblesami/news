@@ -56,24 +56,16 @@
     </div>
 {% endblock %}
 {% block footer_javascript %}
-    <script>
-    (function(){
-        var elm = document.getElementById('username');
-        setTimeout(function(){
-            elm.select();
-        }, 800);
-        $('.Login-form-wrapper').find('button[type="submit"]:first').removeAttr('disabled');
-    })()
-    </script>
-
-
-    <script>
-        $('.form-group.forgot').show();
-    </script>
-
     <script type="text/javascript" src="/static/assets/js/login.js"></script>
     <script>
+        (function(){
+            var elm = document.getElementById('username');
+            setTimeout(function(){
+                elm.select();
+            }, 800);
+            $('.Login-form-wrapper').find('button[type="submit"]:first').removeAttr('disabled');
+        })()
+        $('.form-group.forgot').show();
         console.log(Date(), 'all loaded');
     </script>
-
 {% endblock %}

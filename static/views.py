@@ -11,8 +11,8 @@ def index(request):
             'id' : user.id,
             'login': user.username
         }
-    return render(request, 'main/index.html', context)
+    return render(request, 'index.html', context)
 
 
 def login(request):
-  return render(request, 'auth/index.html', {})
+  return render(request, 'login.html', {})

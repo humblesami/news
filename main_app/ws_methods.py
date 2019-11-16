@@ -1,28 +1,23 @@
 import os
 import sys
 import json
-import base64
-from random import randint
-import traceback
-from django.apps import apps
-from datetime import datetime
-from urllib.parse import urlsplit
-
-from django.db.models import  Q
-from django.contrib.auth import login
-from django.core.files.base import ContentFile
-from rest_framework.authtoken.models import Token
-from PIL import ImageFont, Image, ImageDraw
-
-
-import requests
-from django.forms.models import model_to_dict
-
-from django.core.files.temp import NamedTemporaryFile
-
 import urllib
+import base64
+import requests
+import traceback
+from random import randint
+from datetime import datetime
 from urllib.request import urlopen
-from urllib.parse import quote, unquote
+from PIL import ImageFont, Image, ImageDraw
+from urllib.parse import urlsplit, quote, unquote
+from rest_framework.authtoken.models import Token
+
+from django.apps import apps
+from django.db.models import Q
+from django.contrib.auth import login
+from django.forms.models import model_to_dict
+from django.core.files.base import ContentFile
+from django.core.files.temp import NamedTemporaryFile
 
 
 def now_str():
@@ -366,7 +361,7 @@ def duplicate_file(a, file_ptr, file_type):
 
     a.file_name = file_ptr.file_name
 
-    a.extention = file_ptr.extention
+    a.file_extension = file_ptr.file_extension
     a.access_token = file_ptr.access_token
     a.file_type = file_type
     a.pending_tasks = 0
@@ -379,25 +374,6 @@ def detele_all_temp_files(request, user_id):
     params = {'user_id': user_id}
     method_to_call(request, params)
     return 'done'
-
-
-def search_db(params, search_fields=None):
-    results = []
-    search_text = params['kw'].lower()
-    search_models = params.get('search_models')
-    
-    for app_name in search_models:
-        for model_name in search_models[app_name]:
-            fields = search_apps[app_name][model_name]
-            kwargs = {}
-            q_objects = Q()
-            for field in fields:
-                q_objects |= Q(**{field+'__contains': params['kw']})
-                kwargs.update({'{0}__{1}'.format(field, 'contains'): search_text})
-            model_obj = apps.get_model(app_name, model_name)
-            search_result = model_obj.objects.filter(q_objects).order_by('-pk')
-            results = search_result
-    return results
 
 
 def generate_default_image(name):
@@ -443,6 +419,7 @@ def download_image(file):
     except urllib.error.HTTPError as e:
         return str(e.code) + e.reason
 
+
 def produce_exception(msg=None):
     if not msg:
         eg = traceback.format_exception(*sys.exc_info())
@@ -478,4 +455,3 @@ def produce_exception(msg=None):
                 if not 'lib/python' in er:
                     errorMessage += " " + er
             return errorMessage
-
