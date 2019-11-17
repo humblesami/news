@@ -1,5 +1,6 @@
 pip3 install Django==2.2
 django-admin startproject myproject
+python3 manage.py startapp mymodule
 pip3 install -r requirements.txt
 
 apt-get install python3-pypdf2
@@ -34,7 +35,6 @@ create home page
 
 python3 manage.py runserver
 
-python3 manage.py startapp mymodule
 
 ng build --aot --source-map=false --prod=true --output-path=../static/angular
 mv ../static/static/assets/  ../static/

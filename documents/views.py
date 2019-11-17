@@ -1,19 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+import os
+import json
 from rest_framework.decorators import api_view
+
+from django.db import transaction
+from django.http import HttpResponse
+from django.core.files import File as DjangoFile
 from django.views.decorators.csrf import csrf_exempt
 
-from documents.annotation import AnnotationDocument
 from main_app import ws_methods
-from django.db import transaction
-from meetings.model_files.user import Profile
-from documents.file import File
-from django.core.files import File as DjangoFile
-from django.core.files.temp import NamedTemporaryFile
-from urllib.request import urlopen
-import urllib
-import json
-import os
+from documents.models import File
 
 
 @csrf_exempt
@@ -185,29 +180,3 @@ def upload_single_image_file(request):
     except:
         docs = ws_methods.get_error_message()
     return HttpResponse(docs)
-
-
-def reset_annotations(request):
-    try:
-        if request.user.is_superuser:
-            id = request.GET['id']
-            code = request.GET['code']
-            user_id = request.GET['for']
-            if user_id == 'me':
-                user_id = request.user.id
-            if code != 't5g':
-                return HttpResponse('Invalid code')
-            docs = []
-            if user_id == 'all':
-                docs = AnnotationDocument.objects.filter(document__id=id)
-            else:
-                docs = AnnotationDocument.objects.filter(document__id=id, user__id=user_id)
-            with transaction.atomic():
-                for doc in docs:
-                    for obj in doc.annotation_set.all():
-                        obj.delete()
-            return HttpResponse('done')
-        else:
-            return HttpResponse('Unauthorized')
-    except:
-        return HttpResponse('Error')

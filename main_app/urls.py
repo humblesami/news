@@ -22,16 +22,18 @@ from .import rest_api
 
 urlpatterns = [
     url(r'', include('static.urls')),
-    url(r'^admin/', admin.site.urls, name='admin'),
+    url(r'^admin', admin.site.urls, name='admin'),
     path('rest/public', rest_api.public, name = 'public'),
     path('rest/secure', rest_api.tokened_request, name = 'secure'),
     path('rest/session', rest_api.session, name = 'session'),
 
-    url(r'^user/', include('auth_app.urls')),
+    url(r'^account/', include('auth_app.urls')),
 
     url('auth-code/', include('auth_code.urls')),
     url(r'^chat/', include('chat.urls')),
     url(r'^search/', include('search.urls')),
+
+    url(r'^docs/', include('documents.urls')),
 
     path('media/<str:folder>/<str:file>/', views.serve_protected_document, name='serve_protected_document'),
 
