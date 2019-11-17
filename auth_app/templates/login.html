@@ -1,46 +1,69 @@
 {% extends 'auth_base.html' %}
 {% block content %}
 <link rel="stylesheet" href="/static/assets/auth/css/login.css" >
+
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.3.0/firebase-ui-auth.css" />
+
 <div class="container">
-  <form action="/action_page.php">
-    <div class="row">
-      <h2 style="text-align:center">Login with Social Media or Manually</h2>
-      <div class="vl">
-        <span class="vl-innertext">or</span>
-      </div>
-
-      <div class="col">
-        <a href="#" class="fb btn">
-          <i class="fa fa-facebook fa-fw"></i> Login with Facebook
-         </a>
-        <a href="#" class="twitter btn">
-          <i class="fa fa-twitter fa-fw"></i> Login with Twitter
-        </a>
-        <a href="#" class="google btn"><i class="fa fa-google fa-fw">
-          </i> Login with Google+
-        </a>
-      </div>
-
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Or sign in manually:</p>
+    <form action="/action_page.php">
+        <div class="row">
+            <h2 style="text-align:center">Login with Social Media or Manually</h2>
+            <div class="vl">
+                <span class="vl-innertext">or</span>
+            </div>
+            <div class="col">
+                <a href="#" class="fb btn">
+                    <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+                </a>
+                <a href="#" class="twitter btn">
+                    <i class="fa fa-twitter fa-fw"></i> Login with Twitter
+                </a>
+                <a href="#" class="google btn"><i class="fa fa-google fa-fw">
+                    </i> Login with Google+
+                </a>
+            </div>
+            <div class="col">
+                <div class="hide-md-lg">
+                    <p>Or sign in manually:</p>
+                </div>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Login">
+            </div>
         </div>
-
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
-      </div>
-      
-    </div>
-  </form>
+    </form>
     <div class="row">
-    <div class="col">
-      <a href="#" class="btn">Sign up</a>
+        <div class="col">
+            <a href="#" class="btn">Sign up</a>
+        </div>
+        <div class="col">
+            <a href="#" class="btn">Forgot password?</a>
+        </div>
     </div>
-    <div class="col">
-      <a href="#" class="btn">Forgot password?</a>
-    </div>
-  </div>
-    <script type="text/javascript" src="/static/assets/auth/js/login.js"></script>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/4.3.0/firebase-ui-auth.js"></script>
+<script>
+    (function(){
+       var firebaseConfig = {
+            apiKey: "api-key",
+            authDomain: "gen-auth.firebaseapp.com",
+            databaseURL: "https://gen-auth.firebaseio.com",
+            projectId: "gen-auth",
+            storageBucket: "gen-auth.appspot.com",
+            //messagingSenderId: "sender-id",
+            appId: "1:147677534613:web:2999cb16ff938a2cd4fe9c",
+            //measurementId: "G-measurement-id",
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    })()
+</script>
+
+<script type="text/javascript" src="/static/assets/auth/js/login.js"></script>
 {% endblock %}
