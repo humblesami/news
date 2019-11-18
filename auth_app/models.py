@@ -18,6 +18,7 @@ class Profile(user_model, CustomModel):
         verbose_name_plural = "Boardsheet  Users"
     name = models.CharField(max_length=200, default='', blank=True)
     image = models.ImageField(upload_to='profile/', default='profile/default.png', null=True)
+    two_factor_auth = models.CharField(max_length=64, default='')
 
 
 class DualAuth(models.Model):
@@ -131,13 +132,13 @@ class AuthUser(models.Model):
             user_data['user_photo'] = user_data['photo']
         except:
             pass        
-        """ Creating Peronsl Folder if not exists """
-        folder_model = ws_methods.get_model('resources', 'Folder')
-        method_to_call =  getattr(folder_model, 'create_personal_folder')
-        request.user = user
-        method_to_call(folder_model, request, {})
-        """Deleting All Temp Files"""
-        ws_methods.detele_all_temp_files(request, user.id)
+        # """ Creating Peronsl Folder if not exists """
+        # folder_model = ws_methods.get_model('resources', 'Folder')
+        # method_to_call =  getattr(folder_model, 'create_personal_folder')
+        # request.user = user
+        # method_to_call(folder_model, request, {})
+        # """Deleting All Temp Files"""
+        # ws_methods.detele_all_temp_files(request, user.id)
         return user_data
 
     @classmethod

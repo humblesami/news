@@ -24,6 +24,6 @@
                 options.type = 'get';
                 options.onError = function(data){
                 };
-                window['dn_rpc_object'](options);
+                window['ajax_request'](options);
             })
         })()

@@ -31,7 +31,10 @@ def public(request):
         if not kw:
             kw = request.GET
         kw = json.loads(kw['input_data'])
-        args = kw['args']
+        if kw.get('data'):
+            args = kw['data']['args']
+        else:
+            args = kw['args']
         try:
             res = public_methods[args['app']]
             res = res[args['model']]
@@ -39,7 +42,10 @@ def public(request):
         except:
             res = 'Invalid method call'
             return produce_result(res, args)
-        params = kw['params']
+        if kw.get('data'):
+            params = kw['data']['params']
+        else:
+            params = kw['params']
         model = apps.get_model(args['app'], args['model'])
         method_to_call = getattr(model, args['method'])
         res = method_to_call(request, params)

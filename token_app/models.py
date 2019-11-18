@@ -29,7 +29,7 @@ class PostUserToken(models.Model):
             post_info.save()
         else:
             post_info = post_info[0]
-        user = Profile.objects.get(pk=user_id)
+        user = user_model.objects.get(pk=user_id)
         token = uuid.uuid4().hex[:20]
         user_token = PostUserToken(post_info_id=post_info.id, user_id=user_id, token=token)
         user_token.save()

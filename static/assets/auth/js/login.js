@@ -9,10 +9,10 @@
     var form  = $('.login-form:first');
     form.submit(function(e){
         e.preventDefault();
-        form.find('button[type="submit"]:first').attr('disabled', 'disabled');
+        // form.find('button[type="submit"]:first').attr('disabled', 'disabled');
         var input_data = {
             args:{
-                app: 'authsignup',
+                app: 'auth_app',
                 model: 'AuthUser',
                 method: 'login_user',
             },
@@ -21,7 +21,7 @@
                 password: form.find('#password').val(),
             }
         }
-        form.find('.login-feedback').html('');
+        // form.find('.login-feedback').html('');
         var options = {
             url: '/rest/public',
             data: input_data
@@ -51,6 +51,6 @@
         options.onComplete = function(data){
             form.find('button[type="submit"]:first').removeAttr('disabled');
         };
-        window['dn_rpc_object'](options);
+        window['ajax_request'](options);
     });    
 })()
